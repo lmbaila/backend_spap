@@ -1,6 +1,6 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('payment', function(table){
-    table.string('id_payment',12).primary();
+  return knex.schema.createTable('fee_payment', function(table){
+    table.string('id_fee',12).primary();
     table.string('id_company').notNullable();
     table.string('description');
     table.integer('initial_consumption').notNullable();

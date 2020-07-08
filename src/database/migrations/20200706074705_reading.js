@@ -1,7 +1,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('reading', function(table){
     table.string('id_reading',12).primary();
-    table.string('id_contract_custumer').notNullable();
+    table.integer('id_contract_custumer').notNullable();
     table.integer('id_monthly_management').notNullable();
     table.string('id_employee').notNullable();
     table.integer('initial_reading');
