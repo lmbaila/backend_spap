@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add dotnev
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add nodemon
 
 PATH: 
   C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Program Files\Git\cmd;C:\src\flutter\bin;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Users\Lazaro\AppData\Local\Microsoft\WindowsApps;C:\Users\Lazaro\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Lazaro\AppData\Local\Yarn\bin;C:\Users\Lazaro\AppData\Roaming\npm;C:\src\flutter\bin;
@@ -14,17 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/dotnev: Not found
-      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66084:18)
-      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140727:22)
-      at Request.emit (events.js:310:20)
-      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141699:10)
-      at Request.emit (events.js:310:20)
-      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141621:12)
-      at Object.onceWrapper (events.js:416:28)
-      at IncomingMessage.emit (events.js:322:22)
-      at endReadableNT (_stream_readable.js:1187:12)
-      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: connect EHOSTUNREACH 104.16.17.35:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)
 
 npm manifest: 
   {
@@ -32,10 +23,14 @@ npm manifest:
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
+    "scripts": {
+      "start": "nodemon src/index.js"
+    },
     "dependencies": {
       "bcryptjs": "^2.4.3",
       "celebrate": "^12.1.1",
       "crypto": "^1.0.1",
+      "dotenv": "^8.2.0",
       "express": "^4.17.1",
       "jsonwebtoken": "^8.5.1",
       "knex": "^0.21.1",
@@ -352,6 +347,11 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/detect-file/-/detect-file-1.0.0.tgz#f0d66d03672a825cb1b73bdb3fe62310c8e552b7"
     integrity sha1-8NZtA2cqglyxtzvbP+YjEMjlUrc=
+  
+  dotenv@^8.2.0:
+    version "8.2.0"
+    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+    integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   
   ecdsa-sig-formatter@1.0.11:
     version "1.0.11"

@@ -1,0 +1,10 @@
+create employee : http://localhost:3333/employee/create
+{
+	"name": "Lazaro Mateus", 
+	"surname":"Mbaila", 
+	"born_at":"1995-10-11", 
+	"nr_document":"110100945733F", 
+	"gender":"M",  
+	"password":"cobraselagartos", 
+	"id_group_users":1
+}
