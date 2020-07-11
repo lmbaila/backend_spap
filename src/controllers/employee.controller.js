@@ -9,9 +9,11 @@ module.exports = {
  
     try {
      
-      const id_user = `${crypto.randomBytes(4).toString('Hex')}${name[0]}${surname[0]}`;
+      const id_user = `${crypto.randomBytes(4).toString('Hex')}${name[0]}${surname[0]}`.toLowerCase();
       const id_employee = `${crypto.randomBytes(4).toString('Hex')}`;
-      const user_name = `${name}${id_user.substring(0, 4)}`;
+      const [_user_name] = name.split(' ');
+  
+      const user_name = `${_user_name}_${id_user.substring(0, 4)}`.toLowerCase();
       const password_hash = await bcrypt.hash(password, 10);
       const person = await knex('person').where({nr_document}).first();
 
