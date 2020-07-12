@@ -3,10 +3,12 @@ exports.up = function(knex) {
     table.increments('id_contract_custumer').primary();
     table.string('contract_code',12).notNullable();
     table.string('id_custumer').notNullable();
+    table.string('id_fee').notNullable();
     table.double('account_balance').notNullable();
     table.datetime('created_at').defaultTo(knex.fn.now());
     table.datetime('updated_at').defaultTo(knex.fn.now());
     table.foreign('id_custumer').references('id_custumer').inTable('custumer').onDelete('SET NULL'); 
+    table.foreign('id_fee').references('id_fee').inTable('fee_payment').onDelete('SET NULL'); 
   });
 };
 

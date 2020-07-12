@@ -6,7 +6,7 @@ const knex = require('../database');
 module.exports = {
   async create(req, res){
     const {name, surname, born_at, nr_document, gender, password, id_group_users} = req.body;
- 
+  
     try {
      
       const id_user = `${crypto.randomBytes(4).toString('Hex')}${name[0]}${surname[0]}`.toLowerCase();
