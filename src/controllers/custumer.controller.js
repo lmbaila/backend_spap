@@ -7,7 +7,7 @@ module.exports = {
   async create(req, res){
     const {name, surname, born_at, nr_document, gender, nacionality,} = req.body;
   
-    try {
+    try { 
      
       const id_custumer = `${crypto.randomBytes(4).toString('Hex')}${name[0]}${surname[0]}`.toLowerCase();
       const person = await knex('person').where({nr_document}).first();

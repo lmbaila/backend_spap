@@ -5,7 +5,7 @@ const knex = require('../database');
 
 module.exports = {
   async create(req, res){
-    const {name, surname, born_at, nr_document, gender, password, id_group_users} = req.body;
+    const {name, surname, born_at, nr_document, gender, password, id_group_users, id_company} = req.body;
   
     try {
      
@@ -26,7 +26,7 @@ module.exports = {
        .insert({id_user, id_group_users, id_person:id_person[0], user_name, password:password_hash})
        .transacting(trx);
        await knex('employee')
-       .insert({id_employee, id_user})
+       .insert({id_employee, id_user, id_company})
        .transacting(trx);
       });
       

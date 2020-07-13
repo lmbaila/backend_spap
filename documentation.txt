@@ -9,7 +9,8 @@ create employee : http://localhost:3333/employee/create
 	"id_group_users":1
 }
 
-create employee : http://localhost:3333/company/create
+create company : http://localhost:3333/company/create
+aqui eh necessario criar duas formas de inserao da pessoa, uma usando o Id e outra registando a pessoa 
 {
 	"id_person": "",
 	"full_name": "AGUA CORP",
