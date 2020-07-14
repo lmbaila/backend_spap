@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.string('contract_code',12).notNullable();
     table.string('id_custumer').notNullable();
     table.string('id_fee').notNullable();
+    table.enum('have_counter', ['yes','no']).defaultTo('yes');
     table.double('account_balance').notNullable();
     table.datetime('created_at').defaultTo(knex.fn.now());
     table.datetime('updated_at').defaultTo(knex.fn.now());

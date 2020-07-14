@@ -11,5 +11,6 @@ require('./routes/company.router')(app);
 require('./routes/custumer.router')(app);
 require('./routes/fee_payment.router')(app);
 require('./routes/contract_custumer.router')(app);
-app.listen(3333, ()=>{console.log('server up')});
+require('./routes/monthly_management.router')(app);
+app.listen(3335, ()=>{console.log('server up')});
 

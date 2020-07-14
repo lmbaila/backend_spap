@@ -32,7 +32,6 @@ module.exports = {
       
       return res.status(200).send({message: 'user created sucessfully'});
     }catch(err){
-      console.log(err);
       return res.status(400).send({error: 'Registration failed'});
     }
   }

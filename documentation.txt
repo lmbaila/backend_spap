@@ -60,3 +60,32 @@ create new contract custumer : http://localhost:3333/contract/create
 	"latitude": 0,
 	"longitude": 0
 }
+
+open new monthly : http://localhost:3333/monthly/create
+
+{
+	"id_employee": "",
+	"reading_date": "2020-07-20",
+	"date_invoice": "2020-07-20",
+	"limit_payment": "2020-08-10"
+}
+
+vais criar o procedimento atraves daquela funcaO para criar funcoes no postgres
+
+BEGIN 
+ IF EXISTS(SELECT * from monthly_management mm
+			join employee emp on mm.id_employee = emp.id_employee
+			JOIN company com on emp.id_company = com.id_company		  
+			where Date_part('month', $1) = Date_part('month', current_date) 
+			and Date_part('year', $1) = Date_part('year', current_date)
+			and com.id_company = $2
+			and mm.state = 'opened') THEN
+			
+		RETURN 1;
+		ELSE
+			RETURN 0;
+		END IF;
+	END
+	
+Esse metodo so vai impedir abrir para o mes atual mais de uma vez, para meses != do currente ele 
+vai permitir a insercao. Assim sendo vamos add mais validacoes atraves do front-end
