@@ -2,7 +2,7 @@ exports.up = function(knex) {
   return knex.schema.createTable('monthly_management', function(table){
     table.increments('id_monthly_management')
     table.string('id_employee').notNullable();
-    table.date('reading_date');
+    table.string('reading_date',10);
     table.date('date_invoice');
     table.date('limit_payment');
     table.enum('state',['opened', 'closed', 'removed']).defaultTo('opened');
