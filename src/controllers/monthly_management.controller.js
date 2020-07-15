@@ -9,12 +9,13 @@ module.exports = {
    
     try {
       const { id_user, reading_date, date_invoice, limit_payment} = req.body;
-      const time =  moment().format('LLLL');
+      const time =  moment(new Date(), 'YYYY-MM-DD').format();;
       
-      console.log( time);
-      /*const {id_employee, id_company} =  await knex('users').join('employee','users.id_user','employee.id_user').where({'employee.id_user':id_user}).first();
-      const verifyCurrentDateofCompany =  await knex.raw(`SELECT monthlymanagementopen('${reading_date}','${id_company}')`);
-            
+      console.log(time.substring(0, 7));
+      const {id_employee, id_company} =  await knex('users').join('employee','users.id_user','employee.id_user').where({'employee.id_user':id_user}).first();
+    
+      const verifyCurrentDateofCompany =  await knex('');
+      /*    
       if(verifyCurrentDateofCompany.rows[0].monthlymanagementopen)  return res.status(400).send({error: 'This month is already open'});
        await knex('monthly_management')
         .insert({id_employee, reading_date, date_invoice, limit_payment});*/
