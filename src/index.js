@@ -6,6 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
+require('./routes/auth.router')(app);
 require('./routes/employee.router')(app);
 require('./routes/company.router')(app);
 require('./routes/custumer.router')(app);
