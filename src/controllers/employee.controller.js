@@ -2,7 +2,7 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const knex = require('../database');
-
+/** */
 module.exports = {
   async create(req, res){
     const {name, surname, born_at, nr_document, gender, password, id_group_users, id_company} = req.body;

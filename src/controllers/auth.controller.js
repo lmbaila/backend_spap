@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs');
 const knex = require('./../database/index');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth.json');
-const jwt1 = require('../auth');
-
+const jwt1= require('../auth');
+ /** */
 module.exports = {
   async autheticate(req, res){
     const {user_name, password} = req.body;
