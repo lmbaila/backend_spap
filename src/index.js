@@ -13,5 +13,7 @@ require('./routes/custumer.router')(app);
 require('./routes/fee_payment.router')(app);
 require('./routes/contract_custumer.router')(app);
 require('./routes/monthly_management.router')(app);
+require('./routes/reading.router')(app);
+require('./routes/invoice.router')(app);
 app.listen(3333, ()=>{console.log('server up')});
 
