@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const knex = require('./../database/index');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth.json');
+const {generateToken} = require('../auth');
 module.exports = {
   async autheticate(req, res){
     const {user_name, password} = req.body;
@@ -17,9 +18,7 @@ module.exports = {
         return res.status(400).send({label: 'user_name', message: 'User not found'}); 
 
         if(await bcrypt.compare(password, user.password)){
-          const token = jwt.sign({ id: user.id_user}, authConfig.secret, {
-            expiresIn: '7 days',
-          });
+          const token = generateToken(user.id_user);
           user.id_user =undefined;
           user.password =undefined;
           return res.status(200).json({token, user});

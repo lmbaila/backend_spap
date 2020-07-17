@@ -15,5 +15,5 @@ require('./routes/contract_custumer.router')(app);
 require('./routes/monthly_management.router')(app);
 require('./routes/reading.router')(app);
 require('./routes/invoice.router')(app);
-app.listen(3333, ()=>{console.log('server up')});
+app.listen(process.env.PORT||3333, ()=>{console.log('server up')});
 
