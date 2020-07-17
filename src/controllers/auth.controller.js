@@ -2,7 +2,6 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const knex = require('./../database/index');
-const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth.json');
 const {generateToken} = require('../auth');
 module.exports = {
@@ -16,12 +15,13 @@ module.exports = {
 
       if(!user)
         return res.status(400).send({label: 'user_name', message: 'User not found'}); 
+        
 
         if(await bcrypt.compare(password, user.password)){
-          const token = generateToken(user.id_user);
+          const access_token = generateToken(user.id_user);
           user.id_user =undefined;
           user.password =undefined;
-          return res.status(200).json({token, user});
+          return res.status(200).json({access_token, user});
         }
       return res.status(400).send({label: 'password', message: 'password not found'});
     }catch(err){
