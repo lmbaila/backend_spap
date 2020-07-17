@@ -2,12 +2,15 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const knex = require('../database');
 const moment = require('moment');
-
+const {decodeToken} = require('../auth');
 module.exports = {
   async create(req, res){
    
-    try {
-      const { id_user, reading_date, date_invoice, limit_payment} = req.body;
+    try { 
+      const id_user = await decodeToken(req.headers.authorization);
+      console.log(id_user);
+      const { reading_date, date_invoice, limit_payment} = req.body;
+      
       const time = moment(new Date(), 'YYY-MM-DD').format();
       const temp = '2021-09';
       //time.substring(0,7);
