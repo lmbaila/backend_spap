@@ -7,7 +7,7 @@ exports.up = function(knex) {
     table.integer('initial_reading');
     table.integer('final_reading');
     table.string('obs');
-    table.double('balance_value');
+   // table.double('balance_value');
     table.datetime('created_at').defaultTo(knex.fn.now());
     table.datetime('updated_at').defaultTo(knex.fn.now());   
     table.foreign('id_monthly_management').references('id_monthly_management').inTable('monthly_management').onDelete('SET NULL');

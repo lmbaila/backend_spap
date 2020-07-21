@@ -5,10 +5,11 @@ const knex = require('../database');
 
 module.exports = {
   async create(req, res){
-    const {id_user, id_invoice, date_payment, kind_payment, file_path_proof, amount_pay} = req.body;
+    
   
     try {
-     
+      const { id_invoice, date_payment, kind_payment, file_path_proof, amount_pay} = req.body;
+      const id_user = await decodeToken(req.headers.authorization);
       const {id_employee} =  await knex('users').join('employee','users.id_user','employee.id_user').where({'employee.id_user':id_user}).first();
       const paymentNotClosed = await knex('payment_invoice')
                               .where({id_invoice})

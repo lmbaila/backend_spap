@@ -12,7 +12,7 @@ module.exports = {
       .join('person', 'person.id_person','users.id_person')
        .select('users.id_user as id_user', 'password', 'name', 'surname', 'born_at', 'nr_document', 'gender')
       .where({user_name}).first();
-
+      
       if(!user)
         return res.status(400).send({label: 'user_name', message: 'User not found'}); 
         

@@ -2,13 +2,19 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const knex = require('../database');
+const {decodeToken} = require('../auth');
 /** */
 module.exports = {
   async create(req, res){
-    const {name, surname, born_at, nr_document, gender, password, id_group_users, id_company} = req.body;
     
     try {
-      
+      const id_user_token = await decodeToken(req.headers.authorization);
+      console.log(id_user_token );
+      const {name, surname, born_at, nr_document, gender, password, id_group_users} = req.body;
+      const {id_company} = await knex('users')
+                        .join('employee','users.id_user','employee.id_user')
+                        .where({'users.id_user':id_user_token});
+
       const id_user = `${crypto.randomBytes(4).toString('Hex')}${name[0]}${surname[0]}`.toLowerCase();
       const id_employee = `${crypto.randomBytes(4).toString('Hex')}`;
       const [_user_name] = name.split(' ');

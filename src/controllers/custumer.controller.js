@@ -2,11 +2,14 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const knex = require('../database');
+const {decodeToken} = require ('../auth');
+
 
 module.exports = {
   async create(req, res){
     const {name, surname, born_at, nr_document, gender, nacionality,} = req.body;
-  
+    const id_user = await decodeToken(req.headers.authorization);
+    console.log(id_user);
     try { 
      
       const id_custumer = `${crypto.randomBytes(4).toString('Hex')}${name[0]}${surname[0]}`.toLowerCase();
