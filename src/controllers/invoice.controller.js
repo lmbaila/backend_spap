@@ -11,7 +11,6 @@ module.exports = {
    
     try {
       await knex.transaction(async trx => {
-      //const {id_company, id_employee} = await decodeToken(req.headers.authorization);
       const  {final_reading, initial_reading, count_state} = await knex('reading').join('contract_custumer','reading.id_contract_custumer', 'contract_custumer.id_contract_custumer')
                                                             .where('reading.id_reading', id_reading).first().transacting(trx);
 
