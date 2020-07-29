@@ -8,16 +8,14 @@ module.exports = {
 
   
     try {
-      const { id_invoice, date_payment, kind_payment, file_path_proof, amount_pay} = req.body;
+      const { id_invoice, kind_payment, file_path_proof, amount_pay} = req.body;
       
-      const {id_employee, id_user} = await decodeToken(req.headers.authorization);
-      return res.status(200).send(temm);
-      
+      const {id_employee} = await decodeToken(req.headers.authorization);     
       const paymentNotClosed = await knex('payment_invoice')
-                              .where({id_invoice})
-                               .first(); 
+      .where({id_invoice})
+      .first(); 
 
-      if(paymentNotClosed) return res.status(400).send({error: 'user with same document number already exists'}); 
+      if(paymentNotClosed) return res.status(400).send({error: 'Esta fatura foi paga. '}); 
       await knex.transaction(async trx => {
        await knex('employee')
        .insert({id_employee, id_invoice, date_payment, kind_payment, file_path_proof, amount_pay})
@@ -29,5 +27,13 @@ module.exports = {
       console.log(err);
       return res.status(400).send({error: 'Registration failed'});
     }
+  },
+
+  async ifPaymentNotComplete(){
+    return true;
+  },
+
+  async insertOnAccountBalanceOfCustumer(){
+    return true;
   }
 }

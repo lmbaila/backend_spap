@@ -1,4 +1,4 @@
-
+const {calculateValueOfPayment} = require('../helpers/invoice.helper');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const knex = require('../database');
@@ -7,23 +7,27 @@ const invoice = require('../controllers/invoice.controller');
 
 module.exports = {
   async create(req, res){
-    const {id_contract_custumer, id_monthly_management, initial_reading, final_reading, obs, balance_value} = req.body;
+    const {id_contract_custumer, id_monthly_management, initial_reading, final_reading, obs} = req.body;
   
     try {
       const {id_employee, id_company} = await decodeToken(req.headers.authorization);
-      //return res.status(200).send({id_employee, id_company});
-      const id_reading = `${crypto.randomBytes(4).toString('Hex')}${id_employee.substring(0,4)}`.toUpperCase();
-      const existsReadingCurrentMonth = await knex('reading')
-                    .where({id_contract_custumer})
-                    .andWhere({id_monthly_management})
-                    .first();
       
-      if(existsReadingCurrentMonth) return res.status(400).send({error: 'Reading for this custumer already exists'}); 
+      const id_reading = `${crypto.randomBytes(4).toString('Hex')}${id_employee.substring(0,4)}`.toUpperCase();
+        const {contract_code , count_state} = await knex('reading')
+        .join('contract_custumer', 'contract_custumer.id_contract_custumer', 'reading.id_contract_custumer')
+        .where('contract_custumer.id_contract_custumer', id_contract_custumer)
+        .andWhere('reading.id_monthly_management', id_monthly_management)
+        .first();
+
+      if(contract_code) return res.status(400).send({error: 'Reading for this custumer already exists'}); 
       await knex.transaction(async trx => {
+
+        const consumption = final_reading - initial_reading;
+        const balance_value = await invoice.calculateValueofInvoice({id_company, count_state, consumption});
        await knex('reading')
-       .insert({id_reading, id_employee, id_contract_custumer, id_monthly_management, initial_reading, final_reading, obs, balance_value},'id_reading')
+       .insert({id_reading, id_employee, id_contract_custumer, id_monthly_management, initial_reading, final_reading, obs, balance_value})
        .transacting(trx);
-       invoice.create(id_reading, id_employee, id_company);
+       invoice.create({id_reading, id_employee, balance_value});
       });
       
       return res.status(200).send({message: ' Lecture created sucessfully'});
