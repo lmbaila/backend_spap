@@ -2,9 +2,9 @@ exports.up = function(knex) {
   return knex.schema.createTable('payment_invoice', function(table){
     table.increments('id_payment_invoice')
     table.string('id_employee').notNullable();
-    table.integer('id_invoice').notNullable();
+    table.integer('id_invoice').unique();
     //table.datetime('date_payment');
-    table.enum('kind_payment',['cash','m-pesa','bank']).defaultTo('cash');
+    table.enum('kind_payment',['cash','m-pesa','bank', 'prestacoes']).defaultTo('cash');
     table.string('file_path_proof');
     table.double('amount_pay').notNullable();// se nao pagar o valor todo deve -se acrescentar no saldo do cliente
     table.string('obs');

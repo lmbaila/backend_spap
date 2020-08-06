@@ -8,16 +8,12 @@ module.exports = {
   async create(req, res){
    
     try {
-      const id_user = await decodeToken(req.headers.authorization);
+      const {id_employee, id_company} =  await decodeToken(req.headers.authorization);
       const { reading_date, date_invoice, limit_payment} = req.body;
       
       const time = moment(new Date(), 'YYYY-MM-DD').format();
       const temp = time.substring(0,7);
-      const {id_employee, id_company} =  await knex('users')
-                                        .join('employee','users.id_user','employee.id_user')
-                                        .where({'employee.id_user':id_user})
-                                        .first();
-
+      
       if(!id_employee) return res.status(400).send({error:'Registration failed' });
        const verifyCurrentDateofCompany =  await knex('monthly_management')
       .join('employee','monthly_management.id_employee','employee.id_employee')

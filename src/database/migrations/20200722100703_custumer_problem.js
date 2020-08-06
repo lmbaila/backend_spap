@@ -2,7 +2,7 @@ exports.up = function(knex) {
     return knex.schema.createTable('custumer_problem', function(table){
       table.increments('id_custumer_problem')
       table.string('id_employee').notNullable();
-      table.string('id_contract_custumer').notNullable();
+      table.integer('id_contract_custumer').notNullable();
       table.string('description');
       table.enum('state_problem',['resolved', 'not resolved']).defaultTo('not resolved');    
       table.datetime('created_at').defaultTo(knex.fn.now());

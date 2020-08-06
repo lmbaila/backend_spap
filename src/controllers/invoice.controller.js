@@ -22,8 +22,9 @@ module.exports = {
 
   async calculateValueofInvoice(array){
     try {
-      const {id_company, count_state, consumption} = array;
-
+      const {id_company, id_contract_custumer, consumption} = array;
+        const {count_state} = await knex('contract_custumer').where({id_contract_custumer}).first();
+        
         const {price,iva} = await knex('fee_payment').where('initial_consumption', `${count_state? '<=': '='}`, `${count_state?  consumption: 0}`)
         .join('company', 'fee_payment.id_company', 'company.id_company')
         .andWhere('final_consumption', `${count_state? '>=': '='}`, `${count_state?  consumption: 0}`)
