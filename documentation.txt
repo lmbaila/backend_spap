@@ -1,0 +1,91 @@
+create employee : http://localhost:3333/employee/create
+{
+	"name": "Lazaro Mateus", 
+	"surname":"Mbaila", 
+	"born_at":"1995-10-11", 
+	"nr_document":"110100945733F", 
+	"gender":"M",  
+	"password":"cobraselagartos", 
+	"id_group_users":1
+}
+
+create company : http://localhost:3333/company/create
+aqui eh necessario criar duas formas de inserao da pessoa, uma usando o Id e outra registando a pessoa 
+{
+	"id_person": "",
+	"full_name": "AGUA CORP",
+	"license": "AAA01902",
+	"nuit": "121212121",
+	"contact_number1": "82899393",
+	"contact_number2": "",
+	"email": "aguacorp@email.com",
+	"obs": " ",
+	"address_description": "Hulene A - Cidade de Maputo",
+	"iva": 0.17,
+	"fine": 0.2,
+	"logo_company": " ",
+	"slogan": "Minha empresa",
+	"contrat_expire": "2021-01-01"
+}
+
+create fee payment : http://localhost:3333/feepayment/create
+{
+	"id_company": "52f149c9a",
+	"description": "Taxa domestica",
+	"initial_consumption": 0,
+	"final_consumption": 5,
+	"price": 350
+}
+
+create new custumer : http://localhost:3333/custumer/create
+{
+	"name": "Mario Jose", 
+	"surname":"Cuco", 
+	"born_at":"1995-10-11", 
+	"nr_document":"110100945712F", 
+	"gender":"M",  
+	"nacionality": "Mocambicana"
+}
+
+create new contract custumer : http://localhost:3333/contract/create
+{
+	"contract_code": "AAA01",
+	"id_custumer": 0,
+	"id_fee": "kjhjk",
+	"account_balance": 900,
+	"province_code": "AAA",
+	"address_name": "Hulene Maputo",
+	"place_nr": 855,
+	"block_nr": 12,
+	"latitude": 0,
+	"longitude": 0
+}
+
+open new monthly : http://localhost:3333/monthly/create
+
+{
+	"id_employee": "",
+	"reading_date": "2020-07-20",
+	"date_invoice": "2020-07-20",
+	"limit_payment": "2020-08-10"
+}
+
+vais criar o procedimento atraves daquela funcaO para criar funcoes no postgres
+
+BEGIN 
+ IF EXISTS(SELECT * from monthly_management mm
+			join employee emp on mm.id_employee = emp.id_employee
+			JOIN company com on emp.id_company = com.id_company		  
+			where Date_part('month', $1) = Date_part('month', current_date) 
+			and Date_part('year', $1) = Date_part('year', current_date)
+			and com.id_company = $2
+			and mm.state = 'opened') THEN
+			
+		RETURN 1;
+		ELSE
+			RETURN 0;
+		END IF;
+	END
+	
+Esse metodo so vai impedir abrir para o mes atual mais de uma vez, para meses != do currente ele 
+vai permitir a insercao. Assim sendo vamos add mais validacoes atraves do front-end

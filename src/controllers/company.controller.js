@@ -1,0 +1,24 @@
+const knex = require('../database');
+const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
+
+module.exports = {
+    async create(req, res){
+        const {id_person, full_name, license, nuit, contact_number1, contact_number2, email, obs, address_description, iva, fine, logo_company, slogan, contrat_expire} = req.body;
+        try {
+            const id_company = `${crypto.randomBytes(4).toString('Hex')}${full_name[0]}`.toLowerCase();
+            const company = await knex('company').where({id_company}).first();
+            const company_nuit = await knex('company').where({nuit}).first();
+
+            if(company && company_nuit) return res.status(400).send({error: 'Registration failed'}); 
+                await knex.transaction(async trx => {
+                    await knex('company')
+                    .insert({id_company, id_person, full_name, license, nuit, contact_number1, contact_number2, email, obs, address_description, iva, fine, logo_company, slogan, contrat_expire}, 'license').transacting(trx);
+                });
+                 
+            return res.status(200).send({message: 'company created sucessfully'});
+        } catch (error) {
+            console.log(error);
+        }
+    }
+};
