@@ -8,7 +8,7 @@ module.exports = {
 
   
     try {
-      const { id_invoice, kind_payment, file_path_proof, amount_pay} = req.body;
+      const { id_invoice, kind_payment, file_path_proof, amount_pay} = req.body; 
       
       const {id_employee} = await decodeToken(req.headers.authorization);     
       const paymentNotClosed = await knex('payment_invoice')
