@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const knex = require('../database');
 const {decodeToken} = require('../auth');
 const invoice = require('../controllers/invoice.controller');
+const { index } = require('./contract_custumer.controller');
 
 module.exports = {
   async create(req, res){
@@ -33,6 +34,23 @@ module.exports = {
     }catch(err){
       console.log(err);
       return res.status(400).send({error: 'Registration failed'});
+    }
+  },
+
+  async index(req, res){
+    try {
+      const {id_company} = await decodeToken(req.headers.authorization);
+      const reading = await knex('reading')
+      .join('employee', 'employee.id_employee', 'reading.id_employee')
+      .join('contract_custumer', 'contract_custumer.id_contract_custumer', 'reading.id_contract_custumer')
+      .join('custumer', 'custumer.id_custumer', 'contract_custumer.id_custumer')
+      .join('person', 'person.id_person', 'custumer.id_person')
+      .join('monthly_management', 'monthly_management.id_monthly_management', 'reading.id_monthly_management')
+      .where('employee.id_company', id_company)
+      .select('*');
+      return res.status(200).send({reading});
+    } catch (error) {
+      console.log(error);
     }
   }
 }
