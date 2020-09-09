@@ -7,6 +7,9 @@ module.exports = {
   async index(req, res){
     try {
       const {id_company} = await decodeToken(req.headers.authorization);
+      const {page = 1, order = 'name', direction = 'asc'} = req.query;
+      const column = order.split(',')
+      console.log(column)
       const contract_custumer = await knex('contract_custumer')
       .join('custumer', 'contract_custumer.id_custumer', 'custumer.id_custumer')
       .join('person', 'custumer.id_person', 'person.id_person')
@@ -15,7 +18,11 @@ module.exports = {
       .join('address_contract', 'contract_custumer.id_contract_custumer', "address_contract.id_contract_custumer")
       .where('fee_payment.id_company',id_company)
       .andWhere('contract_custumer.state', true)
-      .column('person.name', 'person.surname', 'person.nr_document', 'contract_custumer.contract_code', 'contract_custumer.account_balance', 'address_contract.address_name');
+      .limit(4)
+      .offset((page - 1) * 4)
+      .column('person.name', 'person.surname', 'person.nr_document', 'contract_custumer.contract_code', 'contract_custumer.account_balance', 'address_contract.address_name')
+      .orderBy(column, direction);
+
       return res.status(200).send({contract_custumer});
     } catch (err) {
       console.log(err);

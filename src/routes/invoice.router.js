@@ -5,4 +5,5 @@ const { celebrate, Joi } = require('celebrate');
 const authMiddleware = require('../middlewares/auth.middleware');
 router.use(authMiddleware);
 router.post('/create', invoice.create);
+router.get('/', invoice.index);
 module.exports = app => app.use('/invoice', router);

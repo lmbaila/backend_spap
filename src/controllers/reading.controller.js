@@ -39,6 +39,8 @@ module.exports = {
 
   async index(req, res){
     try {
+      const {page = 1, order = 'name', direction = 'asc'} = req.query;
+      const column = order.split();
       const {id_company} = await decodeToken(req.headers.authorization);
       const reading = await knex('reading')
       .join('employee', 'employee.id_employee', 'reading.id_employee')
@@ -47,7 +49,11 @@ module.exports = {
       .join('person', 'person.id_person', 'custumer.id_person')
       .join('monthly_management', 'monthly_management.id_monthly_management', 'reading.id_monthly_management')
       .where('employee.id_company', id_company)
-      .select('*');
+      .limit(5)
+      .offset((page - 1) * 5)
+      .column('name', 'surname', 'count_state', 'initial_reading', 'final_reading')
+      .orderBy(column, direction);
+      
       return res.status(200).send({reading});
     } catch (error) {
       console.log(error);
