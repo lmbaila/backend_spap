@@ -49,6 +49,7 @@ module.exports = {
       .join('person', 'person.id_person', 'custumer.id_person')
       .join('monthly_management', 'monthly_management.id_monthly_management', 'reading.id_monthly_management')
       .where('employee.id_company', id_company)
+      .andWhere('monthly_management.state', 'opened')
       .limit(5)
       .offset((page - 1) * 5)
       .column('name', 'surname', 'count_state', 'initial_reading', 'final_reading')

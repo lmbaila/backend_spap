@@ -7,4 +7,5 @@ const { celebrate, Joi } = require('celebrate');
 const authMiddleware = require('../middlewares/auth.middleware');
 router.use(authMiddleware);
 router.post('/create', monthly_management.create);
+router.get('/', monthly_management.index);
 module.exports = app => app.use('/monthly', router);

@@ -6,4 +6,5 @@ const authMiddleware = require('../middlewares/auth.middleware');
 router.use(authMiddleware);
 router.post('/create', invoice.create);
 router.get('/', invoice.index);
+router.get('/custumer', invoice.getLastInvoice);
 module.exports = app => app.use('/invoice', router);

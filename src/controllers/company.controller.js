@@ -1,6 +1,7 @@
 const knex = require('../database');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const { index } = require('./invoice.controller');
 
 module.exports = {
     async create(req, res){
@@ -17,6 +18,17 @@ module.exports = {
                 });
                  
             return res.status(200).send({message: 'company created sucessfully'});
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async index(req, res){
+        try {
+            const company = await knex('company')
+            .join('fee_payment', 'fee_payment.id_company', 'company.id_company')
+            .select('*')
+            .orderBy('license', 'asc')
+            return res.status(200).send({company});
         } catch (error) {
             console.log(error);
         }

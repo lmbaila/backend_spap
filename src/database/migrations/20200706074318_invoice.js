@@ -2,7 +2,7 @@ exports.up = function(knex) {
   return knex.schema.createTable('invoice', function(table){
     table.increments('id_invoice')
     table.string('id_employee').notNullable();
-    table.string('id_reading',12).notNullable();
+    table.string('id_reading',12).unique();
     table.double('value_pay').notNullable();
     table.datetime('created_at').defaultTo(knex.fn.now());
     table.datetime('updated_at').defaultTo(knex.fn.now());   

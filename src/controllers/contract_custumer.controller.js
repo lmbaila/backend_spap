@@ -20,7 +20,7 @@ module.exports = {
       .andWhere('contract_custumer.state', true)
       .limit(4)
       .offset((page - 1) * 4)
-      .column('person.name', 'person.surname', 'person.nr_document', 'contract_custumer.contract_code', 'contract_custumer.account_balance', 'address_contract.address_name')
+      .column('contract_custumer.id_contract_custumer', 'person.name', 'person.surname', 'person.nr_document', 'contract_custumer.contract_code', 'contract_custumer.account_balance', 'address_contract.address_name')
       .orderBy(column, direction);
 
       return res.status(200).send({contract_custumer});
