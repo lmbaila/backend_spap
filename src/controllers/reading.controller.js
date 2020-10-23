@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const knex = require('../database');
 const {decodeToken} = require('../auth');
 const invoice = require('../controllers/invoice.controller');
-const { index } = require('./contract_custumer.controller');
+
 
 module.exports = {
   async create(req, res){
@@ -58,6 +58,16 @@ module.exports = {
       return res.status(200).send({reading});
     } catch (error) {
       console.log(error);
+    }
+  },
+
+  async custumerWithoutReading(req, res){
+    try {
+      const {id_company} = await decodeToken(req.headers.authorization);
+      const custumer = await knex('custumer')
+      
+    } catch (error) {
+      console.log(error)
     }
   }
 }

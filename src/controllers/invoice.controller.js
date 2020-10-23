@@ -1,7 +1,6 @@
 const knex = require('../database');
 const {calculateValueOfPayment} = require('../helpers/invoice.helper');
 const {decodeToken} = require('../auth');
-const { column } = require('../database');
 
 module.exports = {
   async create(array){
@@ -77,7 +76,7 @@ module.exports = {
       const {id_company} = await decodeToken(req.headers.authorization);
       const {page = 1, order = 'name', direction = 'asc'} = req.query; 
       const column = order.split();
-      const {id_contract_custumer} = req.body;
+      const id_contract_custumer = req.params.id;
       const lastCustumerInvoie = await knex('invoice')
       .join('reading', 'reading.id_reading', 'invoice.id_reading')  
       .join('contract_custumer', 'reading.id_contract_custumer', 'contract_custumer.id_contract_custumer')

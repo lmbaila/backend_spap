@@ -6,7 +6,8 @@ const authMiddleware = require('../middlewares/auth.middleware');
 
 router.use(authMiddleware);
 router.get('/', contract_custumer.index);
+router.get('/custumer/:id_contract_custumer', contract_custumer.show)
 router.post('/create', contract_custumer.create);
 router.delete('/delete', contract_custumer.delete);
-router.put('/update', contract_custumer.update);
+router.put('/update/:id', contract_custumer.update);
 module.exports = app => app.use('/contract', router);

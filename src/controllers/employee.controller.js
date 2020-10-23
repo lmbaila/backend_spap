@@ -26,9 +26,10 @@ module.exports = {
 
   },
   async update(req, res){
-    const {id_employee, name, surname, born_at, nr_document, gender, password} = req.body;
+    const { name, surname, born_at, nr_document, gender, password} = req.body;
     try {
       const {id_company} = await decodeToken(req.headers.authorization);
+      const id_employee = req.params.id;
       await knex.transaction(async trx => {
         const {id_person, id_user} = await knex('employee')
         .join('users', 'users.id_user', 'employee.id_user')

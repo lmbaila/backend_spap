@@ -6,7 +6,7 @@ exports.up = function(knex) {
     table.string('id_fee').notNullable();
     table.boolean('count_state').defaultTo(true);
     table.boolean('state').defaultTo(true);
-    table.double('account_balance').notNullable();
+    table.double('account_balance').defaultTo(0);
     table.datetime('created_at').defaultTo(knex.fn.now());
     table.datetime('updated_at').defaultTo(knex.fn.now());
     table.foreign('id_custumer').references('id_custumer').inTable('custumer').onDelete('SET NULL'); 

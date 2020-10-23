@@ -8,5 +8,5 @@ router.use(authMiddleware);
 router.post('/create', employee.create);
 router.get('/',employee.index);
 router.delete('/delete', employee.delete);
-router.put('/update', employee.update);
+router.put('/update/:id', employee.update);
 module.exports = app => app.use('/employee', router);

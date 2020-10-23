@@ -1,5 +1,5 @@
-
 const knex = require("../database");
+const { checkValueInvoice } = require('../helpers/invoice.helper');
 
 module.exports = {
   async create(array){
@@ -7,7 +7,7 @@ module.exports = {
     try {
       
         await knex.transaction(async trx => {
-          const invoice_data = await  this.checkValueInvoice(id_invoice);
+          const invoice_data = await checkValueInvoice(id_invoice);
           const valor_em_falta = invoice_data.valor_falta;
           if((amount_pay - valor_em_falta) >= 0) {
             await knex('late_payment')
@@ -35,14 +35,18 @@ module.exports = {
     }
   },
 
-  async checkValueInvoice(id_invoice){
-      try {
-        const {sum} = await knex.sum('value_pay').from('late_payment').where({id_invoice}).first();
-        const {value_pay} = await knex('invoice').where('id_invoice', id_invoice).first();
-        const data = {valuepay: value_pay, valor_falta: value_pay - sum };
-        return data;     
-      } catch (error) {
-          console.log(error);
-      }
+  async show(req, res){
+    try {
+      const {id_invoice} = req.params;
+      const late_payment = await knex('late_payment')
+        .where('late_payment.id_invoice', id_invoice)
+        .select('*');
+      res.status(200).send({late_payment});
+    } catch (error) {
+      console.log(error);
+
+    }
   }
+
+  
 }

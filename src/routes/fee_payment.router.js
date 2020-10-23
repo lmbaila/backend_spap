@@ -6,5 +6,5 @@ const { celebrate, Joi } = require('celebrate');
 const authMiddleware = require('../middlewares/auth.middleware');
 router.use(authMiddleware);
 router.post('/create', fee_payment.create);
-router.put('/update', fee_payment.update);
+router.put('/update/:id', fee_payment.update);
 module.exports = app => app.use('/feepayment', router);

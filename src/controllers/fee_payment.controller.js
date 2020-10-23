@@ -22,9 +22,9 @@ module.exports = {
     },
     async update(req, res){
         try {
-            const {id_fee, description, initial_consumption, final_consumption, price} = req.body;
+            const { description, initial_consumption, final_consumption, price} = req.body;
             const {id_company} = await decodeToken(req.headers.authorization);
-            
+            const id_fee = req.params.id;
             await knex.transaction(async trx =>{
                 const fee_payment = await knex('fee_payment')
                 .where({id_fee})
