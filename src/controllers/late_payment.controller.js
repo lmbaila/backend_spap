@@ -1,3 +1,4 @@
+const { decodeToken } = require("../auth");
 const knex = require("../database");
 const { checkValueInvoice } = require('../helpers/invoice.helper');
 
@@ -38,14 +39,21 @@ module.exports = {
   async show(req, res){
     try {
       const {id_invoice} = req.params;
+      const {id_company} = await decodeToken(req.headers.authorization);
       const late_payment = await knex('late_payment')
+      .join('invoice', 'late_payment.id_invoice', 'invoice.id_invoice')
+      .join('reading', 'reading.id_reading', 'invoice.id_reading')
+      .join('contract_custumer', 'contract_custumer.id_contract_custumer', 'reading.id_contract_custumer')
+      .join('custumer', 'custumer.id_custumer', 'contract_custumer.id_custumer')
+      .join('employee', 'employee.id_employee', 'invoice.id_employee')
         .where('late_payment.id_invoice', id_invoice)
+        .where('employee.id_company', id_company)
         .select('*');
       res.status(200).send({late_payment});
     } catch (error) {
       console.log(error);
 
-    }
+    } 
   }
 
   

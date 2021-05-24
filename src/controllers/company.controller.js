@@ -1,7 +1,6 @@
 const knex = require('../database');
 const crypto = require('crypto');
-const bcrypt = require('bcryptjs');
-const { index } = require('./invoice.controller');
+const {decodeToken} = require('../auth');
 
 module.exports = {
     async create(req, res){
@@ -28,9 +27,25 @@ module.exports = {
             .join('fee_payment', 'fee_payment.id_company', 'company.id_company')
             .select('*')
             .orderBy('license', 'asc')
-            return res.status(200).send({company});
+            return res.status(200).send({'company': company});
         } catch (error) {
             console.log(error);
         }
-    }
+    },
+
+    async show(req, res){
+        try {
+            const {id_company} = await decodeToken(req.headers.authorization);
+            const company = await knex('company')
+             .where({id_company})
+             .column(
+                'full_name', 'license', 'nuit', 'contact_number1',
+                'logo_company', 'slogan', 'contrat_expire'
+             );
+           return res.status(200).send({company}); 
+          } catch (error) {
+              console.log(error)
+            return res.status(400).send({error});
+          }
+        }
 };

@@ -16,7 +16,7 @@ module.exports = {
       .join('company', 'fee_payment.id_company', 'company.id_company')
       .join('address_contract', 'contract_custumer.id_contract_custumer', "address_contract.id_contract_custumer")
       .where('fee_payment.id_company',id_company)
-      .andWhere('contract_custumer.state', true)
+      .andWhere('contract_custumer.state', true) 
       .limit(5)
       .offset((page - 1) * 5)
       .column(
@@ -136,6 +136,7 @@ module.exports = {
    async show(req, res){
      try {
        const {id_contract_custumer} = req.params;
+       const {id_company} = await decodeToken(req.headers.authorization);
        const contract_custumer = await knex('contract_custumer')
         .join('custumer', 'custumer.id_custumer', 'contract_custumer.id_custumer')
         .join('person', 'person.id_person', 'custumer.id_person')
@@ -143,6 +144,7 @@ module.exports = {
         .join('fee_payment', 'fee_payment.id_fee', 'contract_custumer.id_fee')
         .join('company', 'company.id_company', 'fee_payment.id_company')
         .where('contract_custumer.id_contract_custumer', id_contract_custumer)
+        .andWhere('company.id_company', id_company)
         .column(
           'contract_code', 'count_state', 'nacionality',
           'name', 'surname', 'nr_document',

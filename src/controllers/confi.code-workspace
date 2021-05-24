@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "..\\.."
+		},
+		{
+			"path": "..\\..\\..\\..\\CAMILO\\www\\server"
+		},
+		{
+			"path": "..\\..\\..\\..\\CAMILO\\www\\web"
+		},
+		{
+			"path": "..\\..\\..\\spap"
+		},
+		{
+			"path": "..\\..\\..\\frontend_spap-master"
+		}
+	],
+	"settings": {}
+}
